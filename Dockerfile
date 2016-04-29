@@ -2,9 +2,9 @@ FROM debian:jessie
 
 MAINTAINER Lebedenko Nikolay <lebnikpro@gmail.com>
 
-ENV PATH=/usr/local/bin:/bin:/usr/bin
+ENV PATH=/usr/local/bin:/bin:/usr/bin:/sbin
 
-ENV PHP_VERSION=5.6.19
+ENV PHP_VERSION=5.6.20
 
 RUN apt-get update \
  && apt-get install -y tzdata locales-all "php5-cli=$PHP_VERSION+*" "php5-fpm=$PHP_VERSION+*" "php5-curl=$PHP_VERSION+*" \
