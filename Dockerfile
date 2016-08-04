@@ -22,6 +22,7 @@ RUN apt-get update \
  "php5-pgsql=$PHP_VERSION+*" \
  "php5-gd=$PHP_VERSION+*" \
  "php5-intl=$PHP_VERSION+*" \
+ php5-gd \
  php5-mysql \
  php5-mongo \
  php5-memcache \
