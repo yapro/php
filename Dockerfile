@@ -54,5 +54,8 @@ RUN ln -sf /usr/bin/php70 /usr/bin/php \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin \
  && mv /usr/bin/composer.phar /usr/bin/composer
 
+RUN groupadd www-data \
+ &&useradd -g www-data -s /bin/bash -p xxxx -d /home/www-data -m www-data
+
 # cat /usr/lib/systemd/system/php70-php-fpm.service
 CMD ["/opt/remi/php70/root/usr/sbin/php-fpm", "-F"]
