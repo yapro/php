@@ -9,10 +9,10 @@ MAINTAINER Lebedenko Nikolay <lebnikpro@gmail.com>
 RUN yum check-update ; echo "updated"
 
 RUN yum update -y \
- && yum install -y nano mercurial.x86_64
+ && yum install -y nano mercurial.x86_64 git
 
 # -- install php7 \
-RUN yum install -y epel-release.noarch
+RUN yum install -y epel-release.noarch remi-release-7.2-1.el7.remi.noarch
 RUN rpm --import http://rpms.remirepo.net/RPM-GPG-KEY-remi
 RUN rpm -Uhv http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
 RUN yum check-update ; echo "updated"
