@@ -1,52 +1,58 @@
-FROM debian:jessie
+FROM centos:7.2.1511
 
 MAINTAINER Lebedenko Nikolay <lebnikpro@gmail.com>
 
-RUN apt-get update \
- && apt-get install -y curl ca-certificates software-properties-common python-software-properties \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# some time need execute: yum -y install initscripts which
+# centos commands : https://habrahabr.ru/post/301292/
+# centos php 7 :    https://codebeer.ru/ustanovka-php-7-v-centos-7/
 
-RUN apt-get update \
- && apt-get install -y nano git \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN yum check-update ; echo "updated"
 
-ENV PHP_VERSION=5.6.24
+RUN yum update -y \
+ && yum install -y nano mercurial.x86_64
 
-RUN apt-get update \
- && apt-get install -y tzdata locales-all \
- "php5-cli=$PHP_VERSION+*" \
- "php5-fpm=$PHP_VERSION+*" \
- "php5-curl=$PHP_VERSION+*" \
- "php5-pgsql=$PHP_VERSION+*" \
- "php5-gd=$PHP_VERSION+*" \
- "php5-intl=$PHP_VERSION+*" \
- php5-gd \
- php5-mysql \
- php5-mongo \
- php5-memcache \
- php5-apcu \
- php5-xdebug \
- php5-imagick \
- php5-mcrypt \
- php5-xhprof \
- php5-memcached \
- php-amqplib \
- --no-install-recommends \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# -- install php7 \
+RUN yum install -y epel-release.noarch \
+ && rpm --import http://rpms.remirepo.net/RPM-GPG-KEY-remi \
+ && rpm -Uhv http://rpms.famillecollet.com/enterprise/remi-release-7.rpm \
+ && yum check-update ; echo "updated"
 
-RUN unlink /etc/php5/fpm/conf.d/20-xdebug.ini \
- && unlink /etc/php5/cli/conf.d/20-xdebug.ini
+RUN yum install -y \
+ php70-php-cli.x86_64 \
+ php70-php-pecl-apcu.x86_64 \
+ php70-php-intl.x86_64 \
+ php70-php-pecl-zip.x86_64 \
+ php70-php-fpm.x86_64 \
+ php70-php-devel.x86_64 \
+ php70-runtime.x86_64 \
+ php70-php-common.x86_64 \
+ php70.x86_64 \
+ php70-php-pdo.x86_64 \
+ php70-php-pecl-apcu.x86_64 \
+ php70-php-xml.x86_64 \
+ php70-php-pear.noarch \
+ php70-php-mysqlnd.x86_64 \
+ php70-php-opcache.x86_64 \
+ php70-php-imap.x86_64 \
+ php70-php-mbstring.x86_64 \
+ php70-php-gd.x86_64 \
+ php70-php-gmp.x86_64 \
+ php70-php-json.x86_64 \
+ php70-php-process.x86_64 \
+ php70-php-pecl-imagick.x86_64 \
+ php70-php-pgsql.x86_64 \
+ php70-php-bcmath.x86_64 \
+ php70-php.x86_64 \
+ php70-php-soap.x86_64 \
+ php70-php-pecl-xdebug.x86_64
 
-ADD php.ini /etc/php5/fpm/conf.d/php.ini
-ADD php.ini /etc/php5/cli/conf.d/php.ini
+RUN unlink /etc/opt/remi/php70/php.d/15-xdebug.ini
 
-RUN apt-get update \
- && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin \
- && mv /usr/bin/composer.phar /usr/bin/composer \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN ln -sf /usr/bin/php70 /usr/bin/php \
+ && yum clean all
 
-CMD ["/usr/sbin/php5-fpm", "-F"]
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin \
+ && mv /usr/bin/composer.phar /usr/bin/composer
+
+# cat /usr/lib/systemd/system/php70-php-fpm.service
+CMD ["/opt/remi/php70/root/usr/sbin/php-fpm", "-F"]
