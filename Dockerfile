@@ -1,76 +1,47 @@
-FROM debian:jessie
+FROM ubuntu:12.04
+
 MAINTAINER Lebedenko Nikolay <lebnikpro@gmail.com>
-#OLD MAINTAINER Tom Hill <tom@greensheep.io>
 
-##########################
-## INSTALL DEPENDENCIES ##
-##########################
-
-# Install packages
-RUN DEBIAN_FRONTEND=noninteractive \
- && apt-get update \
- && apt-get upgrade -y \
+RUN apt-get update \
  && apt-get install -y \
-	autoconf \
-	build-essential \
-	imagemagick \
-	libgd3 \
-	libgd-dev \
-	mcrypt \
-	libmcrypt-dev \
-	libbz2-dev \
-	libcurl4-openssl-dev \
-	libevent-dev \
-	libffi-dev \
-	libglib2.0-dev \
-	libjpeg-dev \
-	libmagickcore-dev \
-	libmagickwand-dev \
-	libmysqlclient-dev \
-	libncurses-dev \
-	libpq-dev \
-	libreadline-dev \
-	libsqlite3-dev \
-	libssl-dev \
-	libxml2-dev \
-	libxslt-dev \
-	libyaml-dev \
-	zlib1g-dev \
-	libicu-dev
-
-##########################
-# Build and install PHP
-##########################
-
-# Add libraries directory
-ADD ./lib /home/lib
-WORKDIR /home/lib
-RUN tar -xvf php-5.3.29.tar.gz
-WORKDIR /home/lib/php-5.3.29
-RUN mkdir /usr/include/freetype2/freetype
-#RUN ln -s /usr/include/freetype2/freetype.h /usr/include/freetype2/freetype/freetype.h
-RUN ./configure \
- --enable-fpm \
- --with-mysql \
- --with-mysqli \
- --with-pdo-mysql \
- --with-zlib \
- --with-gd \
- --with-jpeg-dir \
- --with-curl \
- --with-openssl \
- --with-mcrypt \
- --enable-intl \
- --with-iconv \
- --with-iconv-dir \
- --enable-mbstring=all
-# --with-xsl \
-# --with-freetype-dir \
-RUN make clean
-RUN make
-RUN make install
-RUN cp sapi/fpm/php-fpm /usr/local/bin
-CMD ["php5-fpm", "-F"]
-
-RUN && apt-get clean \
+ git \
+ nano \
+ curl \
+ ca-certificates \
+ software-properties-common \
+ python-software-properties \
+ && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+ENV PHP_VERSION=5.6.24
+
+RUN apt-get update \
+ && apt-get install -y tzdata locales-all \
+ php5-cli \
+ php5-fpm \
+ php5-intl \
+ php5-mysql \
+ php5-xdebug \
+ php5-imagick \
+ php5-gd \
+ php5-curl \
+ php5-apcu \
+ php5-mcrypt \
+ php5-xhprof \
+ --no-install-recommends \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN unlink /etc/php5/fpm/conf.d/20-xdebug.ini \
+ && unlink /etc/php5/cli/conf.d/20-xdebug.ini
+
+ADD php.ini /etc/php5/fpm/conf.d/php.ini
+ADD php.ini /etc/php5/cli/conf.d/php.ini
+
+RUN apt-get update \
+ && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin \
+ && mv /usr/bin/composer.phar /usr/bin/composer \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+CMD ["/usr/sbin/php5-fpm", "-F"]
