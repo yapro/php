@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM debian:jessie
 MAINTAINER Lebedenko Nikolay <lebnikpro@gmail.com>
 #OLD MAINTAINER Tom Hill <tom@greensheep.io>
 
@@ -35,7 +35,8 @@ RUN DEBIAN_FRONTEND=noninteractive \
 	libxml2-dev \
 	libxslt-dev \
 	libyaml-dev \
-	zlib1g-dev
+	zlib1g-dev \
+	libicu-dev
 
 ##########################
 # Build and install PHP
@@ -46,14 +47,10 @@ ADD ./lib /home/lib
 WORKDIR /home/lib
 RUN tar -xvf php-5.3.29.tar.gz
 WORKDIR /home/lib/php-5.3.29
-### TMP
-RUN DEBIAN_FRONTEND=noninteractive \
- && apt-get install -y libicu-dev
 RUN mkdir /usr/include/freetype2/freetype
-RUN ln -s /usr/include/freetype2/freetype.h /usr/include/freetype2/freetype/freetype.h
+#RUN ln -s /usr/include/freetype2/freetype.h /usr/include/freetype2/freetype/freetype.h
 RUN ./configure \
  --enable-fpm \
- --with-freetype-dir \
  --with-mysql \
  --with-mysqli \
  --with-pdo-mysql \
@@ -68,7 +65,7 @@ RUN ./configure \
  --with-iconv-dir \
  --enable-mbstring=all
 # --with-xsl \
-#
+# --with-freetype-dir \
 RUN make clean
 RUN make
 RUN make install
