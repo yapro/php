@@ -1,41 +1,49 @@
-FROM debian:jessie
+FROM ubuntu:14.04
+MAINTAINER Tom Hill <tom@greensheep.io>
 
-MAINTAINER Lebedenko Nikolay <lebnikpro@gmail.com>
+# Add libraries directory
+ADD ./lib /home/lib
 
-ENV PHP_VERSION=5.6.20
+##########################
+## INSTALL DEPENDENCIES ##
+##########################
 
-RUN apt-get update \
- && apt-get install -y tzdata locales-all "php5-cli=$PHP_VERSION+*" "php5-fpm=$PHP_VERSION+*" "php5-curl=$PHP_VERSION+*" --no-install-recommends \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# Install packages
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
+	autoconf \
+	build-essential \
+	imagemagick \
+	libgd3 \
+	libgd-dev \
+	mcrypt \
+	libmcrypt-dev \
+	libbz2-dev \
+	libcurl4-openssl-dev \
+	libevent-dev \
+	libffi-dev \
+	libglib2.0-dev \
+	libjpeg-dev \
+	libmagickcore-dev \
+	libmagickwand-dev \
+	libmysqlclient-dev \
+	libncurses-dev \
+	libpq-dev \
+	libreadline-dev \
+	libsqlite3-dev \
+	libssl-dev \
+	libxml2-dev \
+	libxslt-dev \
+	libyaml-dev \
+	zlib1g-dev
 
-RUN apt-get update \
- && apt-get install -y "php5-pgsql=$PHP_VERSION+*" "php5-gd=$PHP_VERSION+*" "php5-intl=$PHP_VERSION+*" --no-install-recommends \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-RUN apt-get update \
- && apt-get install -y php5-mongo php5-memcache php5-apcu php5-xdebug php5-imagick php5-mcrypt --no-install-recommends \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-ADD php.ini /etc/php5/fpm/conf.d/php.ini
-ADD php.ini /etc/php5/cli/conf.d/php.ini
-
-RUN apt-get update \
- && apt-get install -y curl ca-certificates software-properties-common python-software-properties \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-RUN apt-get update \
- && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin \
- && mv /usr/bin/composer.phar /usr/bin/composer \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-RUN apt-get update \
- && apt-get install -y git \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-CMD ["/usr/sbin/php5-fpm", "-F"]
+# Build and install PHP
+WORKDIR /home/lib/php-5.3
+RUN tar -xvf php-5.3.29.tar.gz
+WORKDIR /home/lib/php-5.3/php-5.3.29
+RUN ./configure --enable-fpm --with-mysql --with-mysqli --with-zlib --with-jpeg-dir --with-gd --with-freetype-dir --with-curl --with-openssl --with-pdo-mysql --with-mcrypt
+RUN make clean
+RUN make
+RUN make install
+RUN cp sapi/fpm/php-fpm /usr/local/bin
