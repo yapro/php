@@ -39,9 +39,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
 	zlib1g-dev
 
 # Build and install PHP
-WORKDIR /home/lib/php-5.3
+WORKDIR /home/lib
 RUN tar -xvf php-5.3.29.tar.gz
-WORKDIR /home/lib/php-5.3/php-5.3.29
+WORKDIR /home/lib/php-5.3.29
 RUN ./configure --enable-fpm --with-mysql --with-mysqli --with-zlib --with-jpeg-dir --with-gd --with-freetype-dir --with-curl --with-openssl --with-pdo-mysql --with-mcrypt
 RUN make clean
 RUN make
