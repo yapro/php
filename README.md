@@ -1,1 +1,1 @@
-# Docker files for build containers with php
+# Docker file for build container with php 5.6
