@@ -29,8 +29,7 @@ RUN apt-get update \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN unlink /etc/php5/fpm/conf.d/20-readline.ini \
- && unlink /etc/php5/fpm/conf.d/20-xdebug.ini \
+RUN unlink /etc/php5/fpm/conf.d/20-xdebug.ini \
  && unlink /etc/php5/cli/conf.d/20-xdebug.ini
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin && mv /usr/bin/composer.phar /usr/bin/composer

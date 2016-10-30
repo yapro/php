@@ -9,3 +9,9 @@ Copyright (c) 1997-2016 The PHP Group
 Zend Engine v2.6.0, Copyright (c) 1998-2016 Zend Technologies
     with Zend OPcache v7.0.6-dev, Copyright (c) 1999-2016, by Zend Technologies
 ```
+
+Early used origin php-docker image, which use:
+```
+/usr/local/etc/php/php.ini
+/usr/local/etc/php-fpm.conf
+```
