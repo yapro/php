@@ -10,6 +10,7 @@ RUN apt-get update \
  python-software-properties \
  nano \
  git \
+ msmtp \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
