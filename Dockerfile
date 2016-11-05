@@ -37,7 +37,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
 	libxml2-dev \
 	libxslt-dev \
 	libyaml-dev \
-	zlib1g-dev
+	zlib1g-dev \
+	msmtp
 
 # Build and install PHP
 WORKDIR /home/lib
