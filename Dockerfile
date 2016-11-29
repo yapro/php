@@ -53,3 +53,5 @@ RUN cp sapi/fpm/php-fpm /usr/local/bin
 RUN apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
  && rm -rf /home/lib
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin && mv /usr/bin/composer.phar /usr/bin/composer
