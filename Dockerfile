@@ -9,7 +9,8 @@ MAINTAINER Lebedenko Nikolay <lebnikpro@gmail.com>
 RUN yum check-update ; echo "updated"
 
 RUN yum update -y \
- && yum install -y nano mercurial.x86_64 git
+ && yum install -y nano git mercurial.x86_64 \
+ && mv /etc/mercurial/hgrc.d/certs.rc /etc/mercurial/hgrc.d/certs.rc.orig
 
 # -- install php7 \
 RUN yum install -y epel-release.noarch remi-release-7.2-1.el7.remi.noarch
@@ -18,44 +19,44 @@ RUN rpm -Uhv http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
 RUN yum check-update ; echo "updated"
 
 RUN yum install -y \
- php70-php-cli.x86_64 \
- php70-php-pecl-apcu.x86_64 \
- php70-php-intl.x86_64 \
- php70-php-pecl-zip.x86_64 \
- php70-php-fpm.x86_64 \
- php70-php-devel.x86_64 \
- php70-runtime.x86_64 \
- php70-php-common.x86_64 \
- php70.x86_64 \
- php70-php-pdo.x86_64 \
- php70-php-pecl-apcu.x86_64 \
- php70-php-xml.x86_64 \
- php70-php-pear.noarch \
- php70-php-mysqlnd.x86_64 \
- php70-php-opcache.x86_64 \
- php70-php-imap.x86_64 \
- php70-php-mbstring.x86_64 \
- php70-php-gd.x86_64 \
- php70-php-gmp.x86_64 \
- php70-php-json.x86_64 \
- php70-php-process.x86_64 \
- php70-php-pecl-imagick.x86_64 \
- php70-php-pgsql.x86_64 \
- php70-php-bcmath.x86_64 \
- php70-php.x86_64 \
- php70-php-soap.x86_64 \
- php70-php-pecl-xdebug.x86_64
+ php71-php-cli.x86_64 \
+ php71-php-pecl-apcu.x86_64 \
+ php71-php-intl.x86_64 \
+ php71-php-pecl-zip.x86_64 \
+ php71-php-fpm.x86_64 \
+ php71-php-devel.x86_64 \
+ php71-runtime.x86_64 \
+ php71-php-common.x86_64 \
+ php71.x86_64 \
+ php71-php-pdo.x86_64 \
+ php71-php-pecl-apcu.x86_64 \
+ php71-php-xml.x86_64 \
+ php71-php-pear.noarch \
+ php71-php-mysqlnd.x86_64 \
+ php71-php-opcache.x86_64 \
+ php71-php-imap.x86_64 \
+ php71-php-mbstring.x86_64 \
+ php71-php-gd.x86_64 \
+ php71-php-gmp.x86_64 \
+ php71-php-json.x86_64 \
+ php71-php-process.x86_64 \
+ php71-php-pecl-imagick.x86_64 \
+ php71-php-pgsql.x86_64 \
+ php71-php-bcmath.x86_64 \
+ php71-php.x86_64 \
+ php71-php-soap.x86_64 \
+ php71-php-pecl-xdebug.x86_64
 
-RUN unlink /etc/opt/remi/php70/php.d/15-xdebug.ini
+RUN unlink /etc/opt/remi/php71/php.d/15-xdebug.ini
 
-RUN ln -sf /usr/bin/php70 /usr/bin/php \
+RUN ln -sf /usr/bin/php71 /usr/bin/php \
  && yum clean all
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin \
  && mv /usr/bin/composer.phar /usr/bin/composer
 
 RUN groupadd www-data \
- &&useradd -g www-data -s /bin/bash -p xxxx -d /home/www-data -m www-data
+ && useradd -g www-data -s /bin/bash -p xxxx -d /home/www-data -m www-data
 
-# cat /usr/lib/systemd/system/php70-php-fpm.service
-CMD ["/opt/remi/php70/root/usr/sbin/php-fpm", "-F"]
+# cat /usr/lib/systemd/system/php71-php-fpm.service
+CMD ["/opt/remi/php71/root/usr/sbin/php-fpm", "-F"]
