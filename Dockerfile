@@ -15,6 +15,10 @@ RUN yum update -y \
 # -- install php7 \
 RUN yum install -y epel-release.noarch remi-release-7.2-1.el7.remi.noarch
 RUN rpm --import http://rpms.remirepo.net/RPM-GPG-KEY-remi
+# 2 strings for hub.docker.com
+RUN curl http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-9.noarch.rpm > ~/epel-release-7-9.noarch.rpm
+RUN rpm -ivh ~/epel-release-7-9.noarch.rpm && unlink ~/epel-release-7-9.noarch.rpm
+
 RUN rpm -Uhv http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
 RUN yum check-update ; echo "updated"
 
