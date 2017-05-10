@@ -12,11 +12,12 @@ RUN yum update -y \
  && yum install -y nano mercurial.x86_64 git \
  && mv /etc/mercurial/hgrc.d/certs.rc /etc/mercurial/hgrc.d/certs.rc.orig
 
-# -- install php7 \
-RUN yum install -y epel-release.noarch remi-release-7.2-1.el7.remi.noarch
-RUN rpm --import http://rpms.remirepo.net/RPM-GPG-KEY-remi
-RUN rpm -Uhv http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+# for install php7 you need to add Remi's RPM Repository https://www.server-world.info/en/note?os=CentOS_7&p=initial_conf&f=6
+RUN yum -y install http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+# set [priority=10]
+RUN sed -i -e "s/\]$/\]\npriority=10/g" /etc/yum.repos.d/remi-safe.repo
 RUN yum check-update ; echo "updated"
+# yum --enablerepo=remi-safe -y \
 
 RUN yum install -y \
  php70-php-cli.x86_64 \
