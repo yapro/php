@@ -45,7 +45,8 @@ RUN yum install -y \
  php71-php-bcmath.x86_64 \
  php71-php.x86_64 \
  php71-php-soap.x86_64 \
- php71-php-pecl-xdebug.x86_64
+ php71-php-pecl-xdebug.x86_64 \
+ php71-php-phpiredis.x86_64
 
 RUN unlink /etc/opt/remi/php71/php.d/15-xdebug.ini
 
