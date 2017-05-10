@@ -44,7 +44,8 @@ RUN yum install -y \
  php70-php-bcmath.x86_64 \
  php70-php.x86_64 \
  php70-php-soap.x86_64 \
- php70-php-pecl-xdebug.x86_64
+ php70-php-pecl-xdebug.x86_64 \
+ php70-php-phpiredis.x86_64
 
 RUN unlink /etc/opt/remi/php70/php.d/15-xdebug.ini
 
@@ -55,7 +56,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin \
  && mv /usr/bin/composer.phar /usr/bin/composer
 
 RUN groupadd www-data \
- &&useradd -g www-data -s /bin/bash -p xxxx -d /home/www-data -m www-data
+ && useradd -g www-data -s /bin/bash -p xxxx -d /home/www-data -m www-data
 
 # cat /usr/lib/systemd/system/php70-php-fpm.service
 CMD ["/opt/remi/php70/root/usr/sbin/php-fpm", "-F"]
