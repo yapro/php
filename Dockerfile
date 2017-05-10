@@ -9,7 +9,8 @@ MAINTAINER Lebedenko Nikolay <lebnikpro@gmail.com>
 RUN yum check-update ; echo "updated"
 
 RUN yum update -y \
- && yum install -y nano mercurial.x86_64 git
+ && yum install -y nano mercurial.x86_64 git \
+ && mv /etc/mercurial/hgrc.d/certs.rc /etc/mercurial/hgrc.d/certs.rc.orig
 
 # -- install php7 \
 RUN yum install -y epel-release.noarch remi-release-7.2-1.el7.remi.noarch
