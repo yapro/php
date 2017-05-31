@@ -1,4 +1,13 @@
-# Docker file for build container with php 7.1
+# Docker file for build container with php 7.1.5
+
+```
+docker run --rm -it php7.1.5test php -v
+```
+
+PHP 7.1.5 (cli) (built: May  9 2017 17:04:23) ( NTS )
+Copyright (c) 1997-2017 The PHP Group
+Zend Engine v3.1.0, Copyright (c) 1998-2017 Zend Technologies
+with Zend OPcache v7.1.5, Copyright (c) 1999-2017, by Zend Technologies
 
 ```
 docker run --rm -i -t centos:7.2.1511 bash
@@ -25,7 +34,7 @@ Loading mirror speeds from cached hostfile
 Available Packages
 Name        : php71-php-cli
 Arch        : x86_64
-              Version     : 7.1.4
+              Version     : 7.1.5
               Release     : 1.el7.remi
               Size        : 3.0 M
 Repo        : remi-safe
