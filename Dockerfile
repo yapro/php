@@ -20,8 +20,6 @@ RUN apt-get update && apt-get install -y \
         && docker-php-ext-configure pgsql -with-pgsql=/usr/include/postgresql/ \
         && docker-php-ext-install gd pgsql pdo_pgsql pdo_mysql sockets
 
-RUN sed -i "s/pm.max_children = .*/pm.max_children = 100/" /usr/local/etc/php-fpm.d/www.conf
-
 #Install composer
 RUN curl  --insecure -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/bin/composer \
@@ -66,5 +64,14 @@ RUN apt-get update && apt-get install -y libgss3 locales \
 RUN set -xe && pecl install --nocompress sqlsrv-4.1.6.1
 RUN set -xe && pecl install --nocompress pdo_sqlsrv-4.1.6.1
 RUN set -xe && docker-php-ext-enable sqlsrv pdo_sqlsrv memcached
+
+RUN wget http://xdebug.org/files/xdebug-2.5.4.tgz -O /tmp/xdebug-2.5.4.tgz \
+    && cd /tmp \
+    && tar -xvzf xdebug-2.5.4.tgz \
+    && cd xdebug-2.5.4 \
+    && phpize \
+    && ./configure \
+    && make \
+    && cp modules/xdebug.so /usr/local/lib/php/extensions/no-debug-non-zts-20160303
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
