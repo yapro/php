@@ -67,7 +67,7 @@ RUN apt-get install -y unixodbc-dev \
     && docker-php-ext-enable sqlsrv pdo_sqlsrv
 
 # Install xdebug extension
-RUN RUN pecl install xdebug \
+RUN pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && echo "xdebug.remote_connect_back=0" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
