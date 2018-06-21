@@ -1,7 +1,7 @@
 # Docker file for build container with php 7.1.8
 
 ```
-docker run --rm -it lebnik/php:7.1.gt php -v
+docker run --rm -it lebnik/php:7.1.gt-alex php -v
 ```
 
 PHP 7.1.8 (cli) (built: Aug  4 2017 18:59:36) ( NTS )
