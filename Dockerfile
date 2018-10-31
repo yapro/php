@@ -36,13 +36,12 @@ RUN sed -i "s/pm.start_servers = .*/pm.start_servers = 20/" /usr/local/etc/php-f
 RUN sed -i "s/pm.min_spare_servers = .*/pm.min_spare_servers = 20/" /usr/local/etc/php-fpm.d/www.conf
 RUN sed -i "s/pm.max_spare_servers = .*/pm.max_spare_servers = 30/" /usr/local/etc/php-fpm.d/www.conf
 
-#Install composer
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
-    && php composer-setup.php \
-    && php -r "unlink('composer-setup.php');" \
-    && mv composer.phar /usr/bin/composer \
-    && useradd -ms /bin/bash -p "`openssl passwd -1 123456`" -G sudo,www-data user
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin \
+ && mv /usr/bin/composer.phar /usr/bin/composer
+
+# Add default user
+RUN useradd -ms /bin/bash -p "`openssl passwd -1 123456`" -G sudo,www-data user
 
 # Install memcached extension
 RUN apt-get install -y libmemcached-dev zlib1g-dev \
