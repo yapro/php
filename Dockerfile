@@ -43,6 +43,12 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin \
 # Add default user
 RUN useradd -ms /bin/bash -p "`openssl passwd -1 123456`" -G sudo,www-data user
 
+# Add crontab group
+RUN groupadd -g 107 crontab
+
+# Add users to crontab group
+RUN adduser www-data crontab && adduser user crontab
+
 # Install memcached extension
 RUN apt-get install -y libmemcached-dev zlib1g-dev \
     && pecl install memcached \
