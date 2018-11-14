@@ -49,6 +49,9 @@ RUN groupadd -g 107 crontab
 # Add users to crontab group
 RUN adduser www-data crontab && adduser user crontab
 
+# Install cron (need to use crontab)
+RUN apt-get install -y cron
+
 # Install memcached extension
 RUN apt-get install -y libmemcached-dev zlib1g-dev \
     && pecl install memcached \
