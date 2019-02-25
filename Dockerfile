@@ -30,6 +30,7 @@ RUN apt-get install -y \
 	    && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
 	    && docker-php-ext-configure intl \
         && docker-php-ext-install gd pgsql pdo_pgsql pdo_mysql sockets ldap intl pcntl exif
+	&& docker-php-ext-enable exif
 
 RUN sed -i "s/pm.max_children = .*/pm.max_children = 200/" /usr/local/etc/php-fpm.d/www.conf
 RUN sed -i "s/pm.start_servers = .*/pm.start_servers = 20/" /usr/local/etc/php-fpm.d/www.conf
