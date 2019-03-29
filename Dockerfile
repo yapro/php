@@ -18,3 +18,6 @@ RUN cd /tmp && git clone -b '1.1.20' --single-branch https://github.com/yiisoft/
 RUN mkdir -p /tmp/yii/WebRoot/testdrive
 
 RUN cd /tmp/yii && yes | php framework/yiic webapp WebRoot/testdrive
+
+# Add default user
+RUN useradd -ms /bin/bash -p "`openssl passwd -1 123456`" -G sudo,www-data user
