@@ -1,6 +1,6 @@
 FROM php:7.1-fpm-stretch
 
-COPY . /tmp
+COPY . /tmp/
 
 RUN apt-get update 
 
