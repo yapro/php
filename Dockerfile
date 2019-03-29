@@ -1,7 +1,5 @@
 FROM php:7.1-fpm-stretch
 
-COPY . /tmp/
-
 RUN apt-get update 
 
 RUN apt-get install -y git nano locales \
@@ -28,3 +26,9 @@ RUN pecl install xdebug \
     && echo "xdebug.remote_connect_back=0" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_autostart=on" >> /usr/local/etc/php/conf.d/xdebug.ini
+
+COPY . /tmp/
+
+RUN cp /tmp/console.php /tmp/yii/WebRoot/testdrive/protected/config/console.php && \
+    cp /tmp/User.php /tmp/yii/WebRoot/testdrive/protected/models/User.php && \
+    cp /tmp/MybugCommand.php /tmp/yii/WebRoot/testdrive/protected/commands/MybugCommand.php
