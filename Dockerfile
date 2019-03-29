@@ -21,3 +21,10 @@ RUN cd /tmp/yii && yes | php framework/yiic webapp WebRoot/testdrive
 
 # Add default user
 RUN useradd -ms /bin/bash -p "`openssl passwd -1 123456`" -G sudo,www-data user
+
+# Install xdebug extension
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug \
+    && echo "xdebug.remote_connect_back=0" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo "xdebug.remote_autostart=on" >> /usr/local/etc/php/conf.d/xdebug.ini
