@@ -65,7 +65,13 @@ RUN useradd -ms /bin/bash -p "`openssl passwd -1 123456`" -G sudo,www-data user
 # чтобы пользователь www-data имел доступ к директориям/файлам созданным пользователем user(1000):
 RUN usermod -aG user www-data
 
+# из-за того, что нет доступа в github, выкачиваем библиотеки заранее:
+
+# создаем директорию в которой будет composer.lock
 ADD . /tmp/project
-RUN cd /tmp/project && composer install --prefer-dist --no-interaction
+# установим зависимости
+RUN cd /tmp/project && composer install --prefer-dist --no-interaction --no-scripts
+# установим phpunit
+RUN cd /tmp/project && vendor/bin/simple-phpunit --version
 
 #RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
