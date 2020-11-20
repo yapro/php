@@ -65,6 +65,7 @@ RUN useradd -ms /bin/bash -p "`openssl passwd -1 123456`" -G sudo,www-data user
 # чтобы пользователь www-data имел доступ к директориям/файлам созданным пользователем user(1000):
 RUN usermod -aG user www-data
 
-RUN apt-get install -y dos2unix
+ADD . /tmp/project
+RUN cd /tmp/project && composer install --prefer-dist --no-interaction
 
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+#RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
