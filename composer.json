@@ -13,6 +13,7 @@
         "doctrine/doctrine-fixtures-bundle": "^3.3",
         "friendsofdoctrine/dbal-clickhouse": "^1.5",
         "laminas/laminas-code": "^3.5",
+        "moneyphp/money": "^3.3",
         "nesbot/carbon": "^2.29",
         "php-amqplib/php-amqplib": "^2.12",
         "rybakit/msgpack": "^0.7.0",
